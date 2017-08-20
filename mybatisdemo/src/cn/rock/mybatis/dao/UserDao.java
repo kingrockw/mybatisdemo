@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.rock.mybatis.po.RichUser;
 import cn.rock.mybatis.po.User;
+import cn.rock.mybatis.po.UserContiansObj;
 
 /**
  * 
@@ -26,4 +27,11 @@ public interface UserDao {
 	public List<User> findUserList()throws Exception;
 
 	public RichUser getRichUserById(int id)throws Exception;
+
+	public UserContiansObj getUserContiansObjById(int id)throws Exception;
+
+
+	UserContiansObj getUserContiansObjById1(int i)throws Exception;
+
+	List<User> findUserWithInjection(String i) throws Exception;
 }

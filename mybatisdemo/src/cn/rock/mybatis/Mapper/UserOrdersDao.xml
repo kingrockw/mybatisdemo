@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace命名空间特殊作用： 如果使用mapper动态代理方法，这里就需要配置mapper接口地址-->
+<!--mapper动态代理，一对多查询-->
+<mapper namespace="cn.rock.mybatis.Mapper.UserOrdersDao">
+
+    <resultMap id="orderResultMap" type="cn.rock.mybatis.po.Orders">
+            <id column="id" property="id"></id>
+            <result column="userId" property="userId"></result>
+            <result column="orderContent" property="orderContent"></result>
+            <result column="orderTitle" property="orderTitle"></result>
+    </resultMap>
+
+    <resultMap id="userOrderResultMap" type="cn.rock.mybatis.po.UserOrder">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <collection property="ordersList" ofType="cn.rock.mybatis.po.Orders">
+            <id column="o_id" property="id"></id>
+            <result column="userId" property="userId"></result>
+            <result column="orderContent" property="orderContent"></result>
+            <result column="orderTitle" property="orderTitle"></result>
+        </collection>
+    </resultMap>
+
+
+    <!--这种方式也可以-->
+    <!--<resultMap id="userOrderResultMap" type="cn.rock.mybatis.po.UserOrder">-->
+        <!--<id column="id" property="id"></id>-->
+        <!--<result column="username" property="username"></result>-->
+        <!--<collection property="ordersList" resultMap="orderResultMap">-->
+
+        <!--</collection>-->
+    <!--</resultMap>-->
+    <!--主表和附表的id列表名不能一样，结果集resultMap中要有id-->
+    <select id="getUserOrdersByUserId" parameterType="int" resultMap="userOrderResultMap">
+        SELECT u.*, o.*,o.id as o_id FROM USER u  LEFT JOIN myorder o on u.id = o.userId
+        WHERE u.id = #{id}
+    </select>
+
+    <!--一对多，多是基本属性时方式一-->
+    <!--<resultMap id="userOrderSimpleResultMap" type="cn.rock.mybatis.po.UserOrderSimple">
+        <id property="id" column="id"></id>
+        <result column="username" property="userName"></result>
+        <collection property="orderTitleList" ofType="string">
+            <constructor>
+                <arg column="orderTitle"/>
+            </constructor>
+        </collection>
+    </resultMap>-->
+    <!--一对多，多是基本属性时方式二-->
+    <resultMap id="userOrderSimpleResultMap" type="cn.rock.mybatis.po.UserOrderSimple">
+        <id property="id" column="id"></id>
+        <result column="username" property="userName"></result>
+        <collection property="orderTitleList" ofType="string"  javaType="list">
+            <result column="orderTitle"/>
+        </collection>
+    </resultMap>
+    <select id="listUserOrderSimple" resultMap="userOrderSimpleResultMap">
+        SELECT u.id ,u.username, o.orderTitle FROM USER u  LEFT JOIN myorder o on u.id = o.userId
+    </select>
+</mapper>

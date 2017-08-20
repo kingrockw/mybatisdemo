@@ -3,6 +3,7 @@ package cn.rock.mybatis.dao.impl;
 import cn.rock.mybatis.dao.UserDao;
 import cn.rock.mybatis.po.RichUser;
 import cn.rock.mybatis.po.User;
+import cn.rock.mybatis.po.UserContiansObj;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -73,14 +74,7 @@ public class UserDaoImpl implements UserDao {
 
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		// 通过sqlSession查询用户信息(发起数据库操作)
-		// 第一个参数statement：指定mapper映射文件中statement的id，指定 时需要前边加上statement所属的命名空间
-		// 第二个参数parameter，指定 输入参数
-		// selectOne返回的是单条记录，如果select返回多条记录(list集合)，使用selectOne会报错
-		// 根据映射文件中的resultType指定输出类型
 
-		// 查询用户列表
-		// selectList表示查询一个结果集（可以是一条或多条）
 		List<User> list = sqlSession.selectList("test.findUserList", "张");
 
 		System.out.println(list.size());
@@ -106,5 +100,49 @@ public class UserDaoImpl implements UserDao {
         return richUser;
 
 	}
+
+	@Override
+	public UserContiansObj getUserContiansObjById(int id) throws Exception {
+		// 根据SqlSessionFactory创建SqlSession
+
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+
+
+		UserContiansObj userContiansObj = sqlSession.selectOne("test.getUserContiansObjById", id);
+
+		// 遍历查询结果
+		System.out.println(userContiansObj);
+
+		return userContiansObj;
+
+	}
+	@Override
+	public UserContiansObj getUserContiansObjById1(int id) throws Exception {
+		// 根据SqlSessionFactory创建SqlSession
+
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+
+		UserContiansObj userContiansObj = sqlSession.selectOne("test.getUserContiansObjById1", id);
+
+		// 遍历查询结果
+		System.out.println(userContiansObj);
+
+		return userContiansObj;
+
+	}
+
+	@Override
+	public List<User> findUserWithInjection(String id) throws Exception {
+
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+
+		List<User> user = sqlSession.selectList("test.getUserWithInjection", id);
+
+		// 遍历查询结果
+		System.out.println(user);
+
+		return user;
+	}
+
 
 }

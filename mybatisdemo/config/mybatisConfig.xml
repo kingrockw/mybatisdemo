@@ -29,6 +29,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 配置mapper映射文件 -->
 
 	<mappers>
+		<!-- resource方式 在UserMapper.xml，定义namespace为mapper接口的地址，映射文件通过namespace找到对应的mapper接口文件 -->
+		<!-- <mapper resource="sqlmap/UserMapper.xml" /> -->
+		<!-- class方式 class：指定 mapper接口的地址 遵循规则：将mapper.xml和mapper.java文件放在一个目录
+			且文件名相同 -->
+		<!-- <mapper class="cn.itcast.mybatis.mapper.UserMapper"/> -->
+
+
+		<!--批量mapper扫描 遵循规则：将mapper.xml和mapper.java文件放在一个目录 且文件名相同 -->
+		<!--<package name="cn.itcast.mybatis.mapper" />-->
+
 		<mapper resource="sqlmap/User.xml"/>
+		<package name="cn.rock.mybatis.Mapper" />
 	</mappers>
 </configuration>
