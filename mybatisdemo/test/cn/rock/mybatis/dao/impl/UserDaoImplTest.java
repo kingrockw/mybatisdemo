@@ -68,7 +68,7 @@ public class UserDaoImplTest {
 		User user = new User();
 		user.setUsername("小wang");
 		user.setScore(100f);
-		user.setAddress("苏州州");
+		user.setAddress("苏州");
 		user.setBirthday(new Date());
 		userDao.insertUser(user);
 		System.out.println(user.getId());

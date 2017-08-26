@@ -60,4 +60,18 @@
     <select id="listUserOrderSimple" resultMap="userOrderSimpleResultMap">
         SELECT u.id ,u.username, o.orderTitle FROM USER u  LEFT JOIN myorder o on u.id = o.userId
     </select>
+
+    <select id="mapUserIdName" resultType="map">
+        select u.id ,u.username  from  user u
+
+
+    </select>
+    <select id="mapUserIdNamePlus" resultType="map">
+        select u.id ,u.username  from  user u
+        WHERE
+        u.id IN
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+    </select>
 </mapper>
